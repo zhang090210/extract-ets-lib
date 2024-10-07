@@ -6,4 +6,4 @@
 
 1. 添加入源代码
 
-在`Cargo.toml`的`dependencies`添加`extract-ets-lib = { git = "https://github.com/zhang090210/extract-ets-lib"}`
+在`Cargo.toml`的`dependencies`添加`extract-ets-lib = { git = "https://github.com/zhang090210/extract-ets-lib", rev = "747805d" }`
