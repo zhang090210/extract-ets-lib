@@ -1,0 +1,17 @@
+[package]
+name = "extract-ets-lib"
+version = "5.7.1"
+edition = "2021"
+
+[lib]
+name = "extract_ets_lib"
+path = "src/lib.rs"
+
+[dependencies]
+anyhow = "^1.0.89"
+winreg = "^0.52.0"
+walkdir = "^2.5.0"
+serde = { version = "^1.0.210", features = ["derive"] }
+serde_json = "^1.0.128"
+chrono = "^0.4.38"
+wkhtmltopdf = "^0.4.0"
