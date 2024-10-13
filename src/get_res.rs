@@ -1,3 +1,5 @@
+pub mod get_res;
+
 use std::fs;
 use std::fs::File;
 use std::io::Write;
