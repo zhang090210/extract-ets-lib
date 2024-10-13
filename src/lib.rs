@@ -1,5 +1,3 @@
-mod get_res;
-
 use anyhow::{anyhow, Result};
 use winreg::{
     enums::{HKEY_LOCAL_MACHINE},
