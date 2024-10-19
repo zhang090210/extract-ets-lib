@@ -1,6 +1,6 @@
-mod get_res;
+pub mod papers;
 
-use anyhow::{anyhow, Result};
+use anyhow::Result;
 use winreg::{
     enums::{HKEY_LOCAL_MACHINE},
     RegKey,
@@ -11,7 +11,8 @@ use std::{env, fs};
 use std::path::Path;
 use std::time::SystemTime;
 use chrono::{DateTime, Datelike};
-use crate::get_res::{Answer, Answers, Choose, Dialogues, Fill, Picture, Read};
+pub use crate::papers::{Answer, Answers};
+use crate::PaperType::SeniorCommonPaper;
 
 const LOW_ETS_VERSION: [u8; 3] = [5, 7, 1];
 
@@ -63,6 +64,15 @@ impl ETS {
     }
 }
 
+
+// 定义一个枚举类型，表示试卷类型
+#[derive(Debug)]
+pub enum PaperType {
+    // 表示高中普通试卷
+    SeniorCommonPaper,
+    Unknown, // 表示未知试卷类型
+}
+
 #[derive(Debug, Serialize)]
 pub struct Paper {
     paper_id: String,
@@ -106,38 +116,15 @@ impl Paper {
         )
     }
 
-    pub fn read_answers(&self) -> Result<Answers> {
-        let mut answers = Answers::default();
-        for (idx, answer_path) in WalkDir::new(&self.paper_path).max_depth(1).into_iter().enumerate() {
-            let answer_path = answer_path?;
-            let answer_path = answer_path.path().to_str().unwrap();
-            let json_path = Path::new(answer_path).join("content.json");
-            let json_path = match json_path.to_str() {
-                Some(path) => Ok(path),
-                None => Err(anyhow!("Can't found json file")),
-            }?;
-            if idx > 0 && idx < 10 { // 选择题
-                let choose = Choose::parse_from_json(json_path)?;
-                // println!("{}: {:?}", idx, choose);
-                answers.choose.push(*choose)
-            } else if idx == 10 { // 填空题
-                let fill = Fill::parse_from_json(json_path)?;
-                // println!("{}: {:?}", idx, fill);
-                answers.fill = *fill;
-            } else if idx == 11 { // 听后转述
-                let picture = Picture::parse_from_json(json_path)?;
-                // println!("{}: {:?}", idx, picture);
-                answers.picture = *picture;
-            } else if idx == 12 { // 朗读
-                let read = Read::parse_from_json(json_path)?;
-                // println!("{}: {:?}", idx, read);
-                answers.read = *read;
-            } else if idx == 13 { // 回答问题
-                let dialogues = Dialogues::parse_from_json(json_path)?;
-                // println!("{}: {:#?}", idx, dialogues);
-                answers.dialogue = *dialogues;
+    pub fn read_answers(&self, paper_type: PaperType) -> Result<impl Answers> {
+        match paper_type{
+            SeniorCommonPaper => {
+                let mut answers = papers::senior::CommonAnswers::default();
+                answers.read_answers(&self.paper_path)?;
+                Ok(answers)
             }
+            _ => {panic!("Unsupported paper type: {:?}", paper_type)}
         }
-        Ok(answers)
     }
 }
+

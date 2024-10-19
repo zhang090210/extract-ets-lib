@@ -1,4 +1,4 @@
-# e听说提取（高中版）`v5.7.1`
+# e听说提取库`v5.7.1.1`
 
 这是一个e听说答案提取库，库版本号与e听说版本号保持一致，这个仓库提供了提取、导出等功能的具体实现
 
@@ -6,4 +6,10 @@
 
 1. 添加入源代码
 
-在`Cargo.toml`的`dependencies`添加`extract-ets-lib = { git = "https://github.com/zhang090210/extract-ets-lib", rev = "747805d" }`
+在`Cargo.toml`的`dependencies`添加`extract-ets-lib = { git = "https://github.com/zhang090210/extract-ets-lib"}`
+
+注意：
+
+- 本版本暂未实现生成pdf的功能，此功能将在前端部分完成
+- 现已实现高中部普通试题类型：听后选择1(4道)、听后选择2(10道)、听后记录、听后转述、回答问题
+- 欢迎初中部的同学积极参与开发
