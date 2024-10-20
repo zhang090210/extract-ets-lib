@@ -75,7 +75,7 @@ pub enum PaperType {
 
 #[derive(Debug, Serialize)]
 pub struct Paper {
-    paper_id: String,
+    pub paper_id: String,
     pub paper_path: String,
     pub paper_time: (i32, u32, u32), // (year, month, day)
 }
