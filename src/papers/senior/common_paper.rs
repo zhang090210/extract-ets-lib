@@ -63,7 +63,7 @@ impl Answers for CommonAnswers {
         }
         Ok(())
     }
-    fn export_to_html(&self, template_path: &str, output_path: &str) -> Result<String> {
+    fn export_to_html(&self, output_path: &str) -> Result<String> {
         let chooses: Vec<(String, Vec<(String, &str)>)> = {
             let mut chooses = Vec::new();
             for choose in &self.choose{
@@ -104,7 +104,7 @@ impl Answers for CommonAnswers {
         context.insert("fills", &fills);
         context.insert("pictures", &self.picture.answer);
         context.insert("dialogues", &dialogues);
-        let rendered = TEMPLATES.render(template_path, &context)?;
+        let rendered = TEMPLATES.render("senior/CommonPaper.html", &context)?;
 
 
         if output_path == ":memory:" {
