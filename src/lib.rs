@@ -6,7 +6,7 @@ use winreg::{
     RegKey,
 };
 use walkdir::WalkDir;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::{env, fs};
 use std::path::Path;
 use std::time::SystemTime;
