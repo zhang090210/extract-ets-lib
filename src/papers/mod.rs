@@ -14,7 +14,7 @@ lazy_static!{
 pub trait Answers {
     fn default() -> Self; // 初始化结构体
     fn read_answers(&mut self, paper_path: &str) -> Result<()>; // 从文件读取答案
-    fn export_to_html(&self, template_path: &str, output_path: &str) -> Result<String>; // 导出为html文件
+    fn export_to_html(&self, output_path: &str) -> Result<String>; // 导出为html文件
     fn export_to_pdf(&self, output_path: &str) -> Result<()>; // 导出为pdf文件
     fn export_to_json(&self, output_path: &str) -> Result<String>; // 导出为json文件
 }
