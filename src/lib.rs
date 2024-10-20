@@ -66,7 +66,7 @@ impl ETS {
 
 
 // 定义一个枚举类型，表示试卷类型
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub enum PaperType {
     // 表示高中普通试卷
     SeniorCommonPaper,
