@@ -17,7 +17,6 @@ pub struct CommonAnswers {
     pub read: Read,
     pub dialogue: Dialogues,
 }
-
 impl Answers for CommonAnswers {
     fn default() -> Self {
         CommonAnswers {
@@ -71,12 +70,12 @@ impl Answers for CommonAnswers {
                     let stem = question.stem.clone();
                     let mut choices = vec![];
                     for option in &question.options{
-                        let idx = option.chars().nth(0).unwrap();
+                        let idx = &option[0..1];
                         let option = option.clone()
                             .trim_start_matches("A. ").to_string()
                             .trim_start_matches("B. ").to_string()
                             .trim_start_matches("C. ").to_string();
-                        if idx == question.answer.chars().nth(0).unwrap() {
+                        if idx == &question.answer[0..1] {
                             choices.push((option, "correct"))
                         } else { choices.push((option, "")) }
                     }
@@ -85,13 +84,21 @@ impl Answers for CommonAnswers {
             }
             chooses
         }; // Vec<(题干, Vec<(选项, 类名)>)>
+
         let fills = self.fill.answer.clone()
             .iter_mut().map(|x| x.drain(2..).collect::<String>())
             .collect::<Vec<String>>();
+
         let dialogues = {
             let mut dialogues = vec![];
             for dialogue in &self.dialogue.dialogues{
-                let question = dialogue.question.clone().drain(12..).collect::<String>();
+                let question = dialogue.question.clone()
+                    .trim_start_matches("Question 1. ").to_string()
+                    .trim_start_matches("Question 2. ").to_string()
+                    .trim_start_matches("Question 3. ").to_string()
+                    .trim_start_matches("1. ").to_string()
+                    .trim_start_matches("2. ").to_string()
+                    .trim_start_matches("3. ").to_string();
                 let answer = dialogue.answers.clone();
                 dialogues.push((question, answer))
             }
@@ -130,6 +137,7 @@ impl Answers for CommonAnswers {
 }
 
 
+
 #[derive(Debug, Serialize)]
 pub struct Choose {
     content: String, // 听力材料
@@ -141,7 +149,6 @@ struct ChooseQuestion {
     options: Vec<String>, // 选项
     answer: String, // 答案
 }
-
 impl Answer for Choose {
     fn default() -> Choose {
         Choose {

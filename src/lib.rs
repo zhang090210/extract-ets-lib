@@ -73,7 +73,7 @@ pub enum PaperType {
     Unknown, // 表示未知试卷类型
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Paper {
     pub paper_id: String,
     pub paper_path: String,
