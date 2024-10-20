@@ -12,7 +12,7 @@ fn main() -> Result<()> {
         // println!("Answers: {:#?}", answers);
 
         let _ = answers.export_to_json("test.json")?;
-        answers.export_to_html("senior/CommonPaper.html", "test.html")?;
+        answers.export_to_html("test.html")?;
         break
     }
 
